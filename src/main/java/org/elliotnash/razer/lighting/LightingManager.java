@@ -34,12 +34,12 @@ public class LightingManager {
 
   }
 
-  public int[][][] newMatrix() {
-    return new int[rows][columns][3];
+  public Color[][] newMatrix() {
+    return new Color[rows][columns];
   }
 
-  public void drawMatrix(int[][][] matrix) {
-    if (matrix.length != rows || matrix[rows - 1].length != columns || matrix[rows - 1][columns - 1].length != 3) {
+  public void drawMatrix(Color[][] matrix) {
+    if (matrix.length != rows || matrix[rows - 1].length != columns) {
       System.out.println("Invalid matrix!!");
       return;
     }
@@ -59,7 +59,7 @@ public class LightingManager {
   }
 
   // AHhahah
-  private byte[] toByteArr(int[][][] matrix) throws IOException {
+  private byte[] toByteArr(Color[][] matrix) throws IOException {
     ByteArrayOutputStream out = new ByteArrayOutputStream();
     DataOutputStream dout = new DataOutputStream(out);
     for (int i = 0; i < matrix.length; i++) {
@@ -67,8 +67,14 @@ public class LightingManager {
       dout.writeByte(0);
       dout.writeByte(21);
       for (int j = 0; j < matrix[i].length; j++) {
-        for (int k = 0; k < matrix[i][j].length; k++) {
-          dout.writeByte(matrix[i][j][k]);
+        if (matrix[i][j] != null) {
+          dout.writeByte(matrix[i][j].red);
+          dout.writeByte(matrix[i][j].green);
+          dout.writeByte(matrix[i][j].blue);
+        } else {
+          dout.writeByte((byte)0);
+          dout.writeByte((byte)0);
+          dout.writeByte((byte)0);
         }
       }
     }

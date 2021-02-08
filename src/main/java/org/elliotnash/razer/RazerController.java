@@ -1,26 +1,23 @@
 package org.elliotnash.razer;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
+import org.elliotnash.razer.lighting.Color;
 import org.freedesktop.dbus.connections.impl.DBusConnection;
 import org.freedesktop.dbus.connections.impl.DBusConnection.DBusBusType;
 import org.freedesktop.dbus.exceptions.DBusException;
-import org.jnativehook.GlobalScreen;
-import org.jnativehook.NativeHookException;
-import org.jnativehook.keyboard.NativeKeyEvent;
-import org.jnativehook.keyboard.NativeKeyListener;
 
 import org.elliotnash.razer.device.DeviceManager;
 import org.elliotnash.razer.lighting.LightingManager;
+
+import java.util.ArrayList;
 
 public class RazerController {
 
   public DBusConnection connection = null;
   public LightingManager lightingManager;
-  public Integer lastNum = null;
+  public Integer activeSlot = null;
+  public ArrayList<Integer> filledSlots = new ArrayList<>(9);
 
-  RazerController() {
+  public RazerController() {
     try {
       connection = DBusConnection.getConnection(DBusBusType.SESSION);
     } catch (DBusException e) {
@@ -36,19 +33,19 @@ public class RazerController {
   }
 
   public void draw() {
-    int[][][] matrix = lightingManager.newMatrix();
+    Color[][] matrix = lightingManager.newMatrix();
 
     for (int i = 0; i < matrix.length; i++) {
       for (int j = 0; j < matrix[i].length; j++) {
-        // testMatrix[i][j] = new int[] { 0, 255, 0 };
+        // matrix[i][j] = new int[] { 15, 50, 0 };
       }
     }
 
     // colours
-    int[] red = new int[] { 255, 0, 0 };
-    int[] white = new int[] { 255, 255, 255 };
-    int[] blue = new int[] {255, 0, 255};
-    int[] purple = new int[] {255, 0, 255};
+    Color red = new Color(108, 41, 242);
+    Color white = new Color(255, 255, 255);
+    Color blue = new Color(0, 0, 255);
+    Color purple = new Color(94, 1, 74);
 
 
     // wasd
@@ -56,16 +53,24 @@ public class RazerController {
     matrix[3][2] = red;
     matrix[3][3] = red;
     matrix[3][4] = red;
+    //ctrl+shift
+    matrix[4][1] = purple;
+    matrix[5][1] = purple;
 
     //hotbar
     for (int i = 2; i < 11; i++) {
       matrix[1][i] = blue;
     }
 
+    //filled hotbar slots
+    for (int slot: filledSlots){
+      matrix[1][slot+2] = red;
+    }
+
     // active item
-    if (lastNum != null) {
+    if (activeSlot != null) {
       // then we draw last pressed key
-      matrix[1][lastNum+1] = white;
+      matrix[1][activeSlot +2] = white;
     }
 
     lightingManager.drawMatrix(matrix);

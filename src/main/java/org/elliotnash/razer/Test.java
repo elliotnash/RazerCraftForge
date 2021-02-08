@@ -13,6 +13,13 @@ public class Test implements NativeKeyListener {
     private static RazerController controller;
 
     public static void main(String[] args) {
+
+
+
+
+
+
+
         // key listeners
         try {
             Logger logger = Logger.getLogger(GlobalScreen.class.getPackage().getName());
@@ -37,7 +44,7 @@ public class Test implements NativeKeyListener {
         try {
             int i = Integer.parseInt(text);
             if (i > 0) {
-                controller.lastNum = i;
+                controller.activeSlot = i;
                 controller.draw();
             }
         } catch (NumberFormatException ignored) {
