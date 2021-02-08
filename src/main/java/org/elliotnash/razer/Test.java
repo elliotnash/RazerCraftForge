@@ -15,11 +15,6 @@ public class Test implements NativeKeyListener {
     public static void main(String[] args) {
 
 
-
-
-
-
-
         // key listeners
         try {
             Logger logger = Logger.getLogger(GlobalScreen.class.getPackage().getName());

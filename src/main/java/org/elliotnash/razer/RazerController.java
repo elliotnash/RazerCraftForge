@@ -42,35 +42,35 @@ public class RazerController {
     }
 
     // colours
-    Color red = new Color(108, 41, 242);
-    Color white = new Color(255, 255, 255);
-    Color blue = new Color(0, 0, 255);
-    Color purple = new Color(94, 1, 74);
-
+    Color wasdColor = Color.LAVENDER;
+    Color ctrlShiftColor = Color.PURPLE;
+    Color emptySlotColor = Color.BLUE;
+    Color filledSlotColor = Color.LAVENDER;
+    Color activeSlotColor = Color.WHITE;
 
     // wasd
-    matrix[2][3] = red;
-    matrix[3][2] = red;
-    matrix[3][3] = red;
-    matrix[3][4] = red;
+    matrix[2][3] = wasdColor;
+    matrix[3][2] = wasdColor;
+    matrix[3][3] = wasdColor;
+    matrix[3][4] = wasdColor;
     //ctrl+shift
-    matrix[4][1] = purple;
-    matrix[5][1] = purple;
+    matrix[4][1] = ctrlShiftColor;
+    matrix[5][1] = ctrlShiftColor;
 
     //hotbar
     for (int i = 2; i < 11; i++) {
-      matrix[1][i] = blue;
+      matrix[1][i] = emptySlotColor;
     }
 
     //filled hotbar slots
     for (int slot: filledSlots){
-      matrix[1][slot+2] = red;
+      matrix[1][slot+2] = filledSlotColor;
     }
 
     // active item
     if (activeSlot != null) {
       // then we draw last pressed key
-      matrix[1][activeSlot +2] = white;
+      matrix[1][activeSlot +2] = activeSlotColor;
     }
 
     lightingManager.drawMatrix(matrix);
